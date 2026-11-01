@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "VaultKey")(type "KiCad")(uri "${KIPRJMOD}/lib/VaultKey.pretty")(options "")(descr "VaultKey local footprints"))
+)

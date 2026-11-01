@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+~*.lck
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*.kicad_prl
+/.history/
+/enclosure/
+*.FCStd
+*.FCBak
