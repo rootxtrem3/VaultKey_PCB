@@ -1,0 +1,5 @@
+The VaultKey_USB.dsn and VaultKey_USB.ses files are retained as historical
+FreeRouting artifacts from the initial route. The authoritative final design
+is VaultKey_USB.kicad_pcb, which includes subsequent DRC cleanup, GND island
+stitching, corrected PCA9306 pin mapping, and the TI-recommended R8/C5 bias
+network. Do not import the historical SES over the final PCB.
