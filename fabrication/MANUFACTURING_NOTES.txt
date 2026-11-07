@@ -1,0 +1,48 @@
+VaultKey USB fabrication notes
+==============================
+
+Board outline: 112.500 mm x 50.000 mm overall.
+Main body: X=12.000..112.500 mm, 100.500 mm x 50.000 mm.
+USB-A tongue: X=0.000..12.000 mm, Y=19.000..31.000 mm with 0.5 mm tip chamfers.
+Stackup: 2-layer, 1.6 mm finished FR4, 1 oz copper unless the fabricator requires otherwise.
+Finish: hard gold is preferred for the exposed USB-A edge fingers; ENIG is
+acceptable for low-cycle prototypes.
+Solder mask: both sides; all vias are tented on both sides.
+Minimum track/space: 0.20 / 0.20 mm.
+Copper-to-edge: 0.50 mm minimum.
+Minimum drill: 0.30 mm; standard signal vias 0.60/0.30 mm and power vias 0.80/0.40 mm.
+Mounting holes: 2.7 mm NPTH at (16,3.5), (15,47), (108.5,3.5), (108,46) mm.
+
+USB-A PCB-edge contacts
+-----------------------
+Contact side: front copper/front mask. Tongue: X=0..12 mm, Y=19..31 mm.
+Pad 1 USB_VBUS: center (4.5,21.5), 7.0 x 1.4 mm.
+Pad 2 USB_DM:   center (4.5,24.0), 6.0 x 1.2 mm.
+Pad 3 USB_DP:   center (4.5,26.0), 6.0 x 1.2 mm.
+Pad 4 GND:      center (4.5,28.5), 7.0 x 1.4 mm.
+No silkscreen or zone fill is permitted on the 12 x 12 mm mating tongue.
+The specified stackup remains 1.6 mm; confirm retention in the target port.
+
+Important assembly notes
+------------------------
+* BT1 is a bottom-side Keystone 1058 low-profile CR2032 holder. Pad 1 is
+  VBAT (+); pad 2 is GND (-). Insert the cell through the holder opening.
+* U5 (USBLC6-2SC6) is mounted on the bottom side.
+* DS1 is mounted on headers above the board. Configure the Adafruit OLED for I2C.
+  OLED pin 3 (DC/SA0) and pin 5 (CS) are strapped low; pin 6 (3V3 output) is NC.
+  The carrier PCB intentionally has no OLED corner mounting drills; the module
+  is retained by the 8-pin header.
+* U4 uses the TI-recommended PCA9306 translation circuit: pins 7 and 8 share
+  I2C_BIAS, filtered by C5=100 pF and pulled to +5 V by R8=200 kOhm.
+* Confirm the exact Keystone 1058/1058TR ordering and polarity marking against
+  the procured part before loading cells.
+* Program the ESP32-S3 over the native USB D+/D- connection. The USB-Serial/
+  JTAG interface supports automatic download mode, so no BOOT button is fitted
+  and none is needed for normal programming. GPIO0 is held high by R7=10k.
+* SW5 is a recessed 4.2 x 3.2 mm, 2.5 mm tall SMD tactile switch at
+  (104.0, 13.5) on the front side, wired only from EN to GND. It is not
+  finger-accessible: provide
+  a 1.0-1.2 mm pinhole in the enclosure lid directly above it and use a needle
+  or SIM-ejector tool to reset the module.
+* The project-local U1 STEP model is an assembly-envelope approximation, not
+  vendor-controlled CAD; do not use it to machine mating parts.
