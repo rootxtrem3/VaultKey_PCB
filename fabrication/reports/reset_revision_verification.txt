@@ -1,0 +1,28 @@
+VaultKey USB revision-D BOOT/RESET verification
+==============================================
+PASS  SW6 BOOT footprint absent
+PASS  SW5 present as Wuerth recessed switch
+PASS  SW5 at (104.0, 13.5) mm front side
+PASS  EN = module pin 3, R6, C7, SW5 (no GND short)
+PASS  BOOT/GPIO0 = module pin 27 + R7 pull-up only (no switch)
+PASS  R6 pad 1 is +3V3 (EN pull-up present)
+PASS  C7 pad 2 is GND (EN RC present)
+PASS  R7 pad 1 is +3V3 (GPIO0 pull-up present)
+PASS  USB D- on U1 pin 13
+PASS  USB D+ on U1 pin 14
+PASS  PCB unconnected items = 0
+PASS  DRC violations = 0
+PASS  DRC unconnected pads = 0
+PASS  ERC errors = 0
+PASS  ERC warnings = 0
+
+EN net pads: C7.1, R6.2, SW5.1, U1.3
+BOOT/GPIO0 net pads: R7.2, U1.27
+Recessed switch: Button_Switch_SMD:SW_Push_1P1T_NO_Vertical_Wuerth_434133025816
+Switch position: (104.000, 13.500) mm, front side
+Enclosure access: 1.0-1.2 mm pinhole centred above the switch
+Reset pin: ESP32-S3 EN (U1 pin 3), not a GPIO
+Normal boot: R7 holds GPIO0 high; R6/C7 release EN after USB power-up
+USB programming: native USB-Serial/JTAG automatic download mode
+
+Overall result: PASS

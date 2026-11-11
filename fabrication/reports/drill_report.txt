@@ -1,0 +1,27 @@
+Drill report for VaultKey_USB.kicad_pcb
+Created on 2026-11-12T22:41:38
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'VaultKey_USB-PTH.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0.300mm  0.0118"  (29 holes))
+    T2  0.300mm  0.0118"  (12 holes))
+    T3  0.400mm  0.0157"  (8 holes))
+    T4  0.800mm  0.0315"  (8 holes))
+    T5  1.000mm  0.0394"  (8 holes))
+
+    Total plated holes count 65
+
+
+Drill file 'VaultKey_USB-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+    T1  2.700mm  0.1063"  (4 holes))
+
+    Total unplated holes count 4

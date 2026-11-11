@@ -1,0 +1,1 @@
+102 pcb pads, 102 sch pins, 0 mismatches

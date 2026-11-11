@@ -1,0 +1,35 @@
+VaultKey USB mechanical/electrical validation
+============================================
+Edge coordinate bounds: 0.000, 0.000 to 112.500, 50.000 mm
+Exact outline dimensions: 112.500 x 50.000 mm
+Board thickness: 1.600 mm
+Copper layers: 2
+Footprints: 37
+Tracks: 276
+Vias: 37
+Unconnected items: 0
+
+Locked placements:
+  J1   X=   9.500 Y=  25.000 rot=  -90.0 deg
+  DS1  X=  23.088 Y=  16.000 rot=    0.0 deg
+  U1   X=  62.000 Y=  37.500 rot=  180.0 deg
+  U2   X=  64.585 Y=   3.545 rot=    0.0 deg
+  SW1  X=  86.500 Y=  12.000 rot=    0.0 deg
+  SW2  X=  87.000 Y=  33.500 rot=    0.0 deg
+  SW3  X=  95.000 Y=  22.000 rot=    0.0 deg
+  SW4  X=  77.500 Y=  22.000 rot=    0.0 deg
+
+Mounting holes:
+  H1: (16.000, 3.500) mm, 2.7 mm NPTH
+  H2: (15.000, 47.000) mm, 2.7 mm NPTH
+  H3: (108.500, 3.500) mm, 2.7 mm NPTH
+  H4: (108.000, 46.000) mm, 2.7 mm NPTH
+
+OLED module corner drills: 0 (intentionally removed)
+RTC battery holder: Keystone 1058/1058TR, bottom side
+
+All vias are tented on front and back.
+
+USB D+ routed length: 69.713 mm
+USB D- routed length: 76.338 mm
+USB pair length mismatch: 6.625 mm

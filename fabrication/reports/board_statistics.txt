@@ -1,0 +1,59 @@
+PCB statistics report
+=====================
+- Date: Thu 12 Nov 2026 10:41:39 PM EAT
+- Project: VaultKey_USB
+- Board name: VaultKey_USB
+
+Board
+-----
+- Width: 112.5000 mm
+- Height: 50.0000 mm
+- Area: 5131.64 mm²
+- Front copper area: 4581.581 mm²
+- Back copper area: 4557.281 mm²
+- Min track clearance: 0.2017 mm
+- Min track width: 0.2000 mm
+- Min drill diameter: 0.3000 mm
+- Board stackup thickness: 1.6000 mm
+
+- Front footprint area: 976.536 mm²
+- Back footprint area: 615.476 mm²
+- Front component density: 19.03 %
+- Back component density: 11.99 %
+Pads
+----
+- Through hole: 28
+- SMD: 126
+- Connector: 0
+- NPTH: 4
+- Castellated: 0
+- Press-fit: 0
+
+Vias
+----
+- Through vias: 37
+- Blind vias: 0
+- Buried vias: 0
+- Micro vias: 0
+
+Components
+----------
+
+|              | Front Side | Back Side | Total |
+|--------------|------------|-----------|-------|
+|THT:          |          2 |         0 |     2 |
+|SMD:          |         29 |         2 |    31 |
+|Unspecified:  |          4 |         0 |     4 |
+|Total:        |         35 |         2 |    37 |
+
+Drill holes
+-----------
+
+| Count | Shape |    X Size |    Y Size | Plated | Via/Pad | Start Layer | Stop Layer |
+|-------|-------|-----------|-----------|--------|---------|-------------|------------|
+|    29 | Round | 0.3000 mm | 0.3000 mm |    PTH |     Via |        F.Cu |       B.Cu |
+|    12 | Round | 0.3000 mm | 0.3000 mm |    PTH |     Pad |        F.Cu |       B.Cu |
+|     8 | Round | 0.8000 mm | 0.8000 mm |    PTH |     Pad |        F.Cu |       B.Cu |
+|     8 | Round | 1.0000 mm | 1.0000 mm |    PTH |     Pad |        F.Cu |       B.Cu |
+|     8 | Round | 0.4000 mm | 0.4000 mm |    PTH |     Via |        F.Cu |       B.Cu |
+|     4 | Round | 2.7000 mm | 2.7000 mm |   NPTH |     Pad |        F.Cu |       B.Cu |

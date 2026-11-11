@@ -1,0 +1,20 @@
+VaultKey USB-A PCB-edge contact verification
+============================================
+Board: VaultKey_USB.kicad_pcb
+Actual insertion tip: X=0.000 mm; insertion/contact axis: +X
+Actual tongue: X=0.000..12.000, Y=19.000..31.000 mm
+Contact side: F.Cu / F.Mask
+
+Pad | Net      | Position (mm) | Size (mm) | Angle | Inside | Connected | Result
+----|----------|---------------|-----------|-------|--------|-----------|-------
+  1 | USB_VBUS | (4.500,21.500) | 7.000x1.400 |   0.0 | YES    | YES       | PASS
+  2 | USB_DM   | (4.500,24.000) | 6.000x1.200 |   0.0 | YES    | YES       | PASS
+  3 | USB_DP   | (4.500,26.000) | 6.000x1.200 |   0.0 | YES    | YES       | PASS
+  4 | GND      | (4.500,28.500) | 7.000x1.400 |   0.0 | YES    | YES       | PASS
+
+Contact order (lower edge toward upper edge): 1 -> 2 -> 3 -> 4
+Expected net order: USB_VBUS -> USB_DM -> USB_DP -> GND
+Silkscreen items on mating tongue: 0
+Zone-fill samples on mating tongue: 0
+Unconnected items: 0
+Overall result: PASS
