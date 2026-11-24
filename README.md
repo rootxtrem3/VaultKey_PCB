@@ -192,3 +192,6 @@ See `fabrication/MANUFACTURING_NOTES.txt` for the concise release notes sent
 with the Gerber archive.
 Detailed USB pad measurements and connectivity checks are recorded in
 `fabrication/reports/USB_contact_verification.txt`.
+
+![The Firmware](https://github.com/rootxtrem3/VaultKey_Firmware)
+![The Companion App](https://github.com/rootxtrem3/VaultKey_Companion)
