@@ -5,8 +5,12 @@ Board outline: 112.500 mm x 50.000 mm overall.
 Main body: X=12.000..112.500 mm, 100.500 mm x 50.000 mm.
 USB-A tongue: X=0.000..12.000 mm, Y=19.000..31.000 mm with 0.5 mm tip chamfers.
 Stackup: 2-layer, 1.6 mm finished FR4, 1 oz copper unless the fabricator requires otherwise.
-Finish: hard gold is preferred for the exposed USB-A edge fingers; ENIG is
-acceptable for low-cycle prototypes.
+Finish: standard ENIG for this low-cycle prototype; hard-gold edge plating is
+not specified. Confirm insertion-cycle requirements with the fabricator.
+Release status: PCB DRC passes with zero violations after copper-zone refill.
+Regenerate this manufacturing package from the current board before ordering;
+existing archived Gerbers may predate the final zone refill. Physical board
+validation remains outstanding.
 Solder mask: both sides; all vias are tented on both sides.
 Minimum track/space: 0.20 / 0.20 mm.
 Copper-to-edge: 0.50 mm minimum.
@@ -34,11 +38,13 @@ Important assembly notes
   is retained by the 8-pin header.
 * U4 uses the TI-recommended PCA9306 translation circuit: pins 7 and 8 share
   I2C_BIAS, filtered by C5=100 pF and pulled to +5 V by R8=200 kOhm.
+* GPIO1 drives D1 through R5=1 kOhm; the LED is MCU controlled and active high.
+* TP1.1 is BOOT/GPIO0 and TP1.2 is GND. Bridge them while pulsing SW5/EN to
+  enter ROM recovery mode; remove the bridge after ROM USB enumeration.
 * Confirm the exact Keystone 1058/1058TR ordering and polarity marking against
   the procured part before loading cells.
 * Program the ESP32-S3 over the native USB D+/D- connection. The USB-Serial/
-  JTAG interface supports automatic download mode, so no BOOT button is fitted
-  and none is needed for normal programming. GPIO0 is held high by R7=10k.
+  JTAG interface supports automatic download mode; GPIO0 is held high by R7=10k.
 * SW5 is a recessed 4.2 x 3.2 mm, 2.5 mm tall SMD tactile switch at
   (104.0, 13.5) on the front side, wired only from EN to GND. It is not
   finger-accessible: provide

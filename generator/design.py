@@ -64,6 +64,7 @@ NETS = [
     "SW_BACK",
     "EN",
     "BOOT",
+    "LED_GPIO",
     "VBAT",
     "RTC_X1",
     "RTC_X2",
@@ -136,12 +137,12 @@ PARTS: list[Part] = [
     Part("C8", "100nF", "Capacitor_SMD", "C_0805_2012Metric", 36.0, 11.0, 90,
          pads={"1": "+5V", "2": "GND"}, description="OLED VIN bypass"),
 
-    # ---- Power indicator ----------------------------------------------
+    # ---- MCU-controlled status LED ------------------------------------
     Part("R5", "1k", "Resistor_SMD", "R_0805_2012Metric", 47.5, 3.5, 0,
-         pads={"1": "+3V3", "2": "LED_A"}, description="Power LED series resistor"),
+         pads={"1": "LED_GPIO", "2": "LED_A"}, description="Status LED current limiter"),
     Part("D1", "GREEN", "LED_SMD", "LED_0805_2012Metric", 51.5, 3.5, 0,
          pads={"1": "GND", "2": "LED_A"},
-         description="3.3 V power indicator LED (pad 1 cathode)"),
+         description="GPIO-controlled green status LED (pad 1 cathode)"),
 
     # ---- ESP32-S3 module ----------------------------------------------
     Part("U1", "ESP32-S3-WROOM-1U", "RF_Module", "ESP32-S3-WROOM-1U",
@@ -151,6 +152,7 @@ PARTS: list[Part] = [
              "4": "SW_SELECT", "5": "SW_DOWN", "6": "SW_BACK", "7": "SW_UP",
              "12": "OLED_SDA", "13": "USB_DM", "14": "USB_DP",
              "17": "OLED_SCL", "21": "OLED_RST", "27": "BOOT",
+             "39": "LED_GPIO",
              "40": "GND", "41": "GND",
          },
          description="ESP32-S3 Wi-Fi/BLE module with external antenna"),
@@ -220,9 +222,8 @@ PARTS: list[Part] = [
          pads={"1": "SW_BACK", "2": "GND"}, description="Navigation back"),
 
     # ---- Recessed reset / boot strap -----------------------------------
-    # The BOOT button was removed.  GPIO0 is held HIGH by R7 so the module
-    # always boots normally from flash; native USB-Serial/JTAG handles
-    # automatic download mode, so no BOOT button is required.
+    # GPIO0 is held high for normal boot. TP1 bridges it to GND while SW5
+    # pulses EN, selecting the ROM downloader for recovery.
     # SW5 is a tiny SMD tactile switch reached through a pinhole in the
     # enclosure, not a finger-operated control.
     Part("SW5", "RESET", "Button_Switch_SMD",
@@ -235,6 +236,9 @@ PARTS: list[Part] = [
          pads={"1": "EN", "2": "GND"}, description="EN RC delay capacitor"),
     Part("R7", "10k", "Resistor_SMD", "R_0805_2012Metric", 99.0, 39.5, 90,
          pads={"1": "+3V3", "2": "BOOT"}, description="BOOT/GPIO0 pull-up"),
+    Part("TP1", "BOOT_RECOVERY", "TestPoint", "TestPoint_2Pads_Pitch2.54mm_Drill0.8mm",
+         104.0, 36.0, 0, pads={"1": "BOOT", "2": "GND"},
+         description="Bridge BOOT to GND during reset for ROM recovery"),
 ]
 
 for _ref, (_x, _y) in MOUNTING_HOLES.items():
@@ -255,6 +259,7 @@ def part_by_ref(ref: str) -> Part:
 FOOTPRINT_LIBS = {
     "VaultKey": "lib/VaultKey.pretty",
     "Button_Switch_SMD": "/usr/share/kicad/footprints/Button_Switch_SMD.pretty",
+    "TestPoint": "/usr/share/kicad/footprints/TestPoint.pretty",
     "Capacitor_SMD": "/usr/share/kicad/footprints/Capacitor_SMD.pretty",
     "Crystal": "/usr/share/kicad/footprints/Crystal.pretty",
     "Battery": "/usr/share/kicad/footprints/Battery.pretty",

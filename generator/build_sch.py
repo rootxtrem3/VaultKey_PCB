@@ -33,7 +33,7 @@ LAYOUT = {
     "C9": (97, 80, 0),
     "U5": (148, 62, 0),
 
-    # 3V3 regulator and power LED
+    # 3V3 regulator and MCU-controlled status LED
     "U3": (52, 142, 0),
     "C1": (92, 142, 0),
     "C2": (122, 142, 0),
@@ -73,6 +73,7 @@ LAYOUT = {
     "R6": (196, 240, 90),
     "C7": (222, 240, 0),
     "R7": (196, 282, 90),
+    "TP1": (246, 282, 0),
 
     # Mounting holes
     "H1": (470, 330, 0),
@@ -83,7 +84,7 @@ LAYOUT = {
 
 CAPTIONS = [
     (20, 27, "USB INPUT, ESD PROTECTION AND POLYFUSE"),
-    (20, 112, "5 V TO 3.3 V REGULATOR AND POWER LED"),
+    (20, 112, "5 V TO 3.3 V REGULATOR AND STATUS LED"),
     (212, 27, "ESP32-S3-WROOM-1U MODULE"),
     (340, 27, "1.3 in 128x64 I2C OLED AND 3.3 V PULL-UPS"),
     (436, 27, "DS1307 REAL-TIME CLOCK AND CR2032 BACKUP"),
@@ -97,7 +98,8 @@ NOTES = [
     "All board nets are named; every pin is labelled so the schematic and the PCB share one netlist.",
     "Power budget: USB 5 V @ 0.5 A polyfuse, AMS1117-3.3 supplies the module and display logic.",
     "I2C: ESP32 + OLED use the 3.3 V side; PCA9306 translates to the 5 V DS1307. RTC keeps time on VBAT.",
-    "BOOT button removed: R7 holds GPIO0 high, so the module boots from flash on every USB power-up.",
+    "ROM recovery: bridge TP1 BOOT/GND while pulsing recessed EN reset, then remove the bridge after ROM USB enumeration.",
+    "Status LED D1 is driven by ESP32 GPIO1 through R5=1k; HIGH lights the LED.",
     "Firmware download uses the ESP32-S3 native USB-Serial/JTAG interface (automatic download mode).",
     "RESET: R6 (10k) pulls EN high, C7 (100nF) delays release; SW5 is a recessed needle-access switch to GND.",
 ]
@@ -200,6 +202,7 @@ SYMBOL_MAP = {
     "U4": "Interface:PCA9306",
     "SW1": "Switch:SW_Push", "SW2": "Switch:SW_Push", "SW3": "Switch:SW_Push",
     "SW4": "Switch:SW_Push", "SW5": "Switch:SW_Push",
+    "TP1": "Connector:TestPoint_2Pole",
     "H1": "Mechanical:MountingHole", "H2": "Mechanical:MountingHole",
     "H3": "Mechanical:MountingHole", "H4": "Mechanical:MountingHole",
 }

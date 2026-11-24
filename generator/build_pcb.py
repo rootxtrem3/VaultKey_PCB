@@ -321,7 +321,7 @@ def add_keepouts(board: pcbnew.BOARD) -> None:
 def add_board_text(board: pcbnew.BOARD) -> None:
     tb = board.GetTitleBlock()
     tb.SetTitle("VaultKey USB Security Key")
-    tb.SetRevision("D")
+    tb.SetRevision("E")
     tb.SetCompany("VaultKey")
     tb.SetComment(0, "USB-A edge connector, ESP32-S3, OLED, DS1307 RTC")
     tb.SetComment(1, "2-layer, 1.6 mm FR4, 1 oz copper")
@@ -330,7 +330,7 @@ def add_board_text(board: pcbnew.BOARD) -> None:
     for text, x, y, size in [
         ("VAULTKEY", 90.0, 46.5, 1.6),
         ("USB 2.0", 4.0, 17.0, 0.8),
-        ("Rev D", 90.0, 48.2, 1.0),
+        ("Rev E", 90.0, 48.2, 1.0),
     ]:
         item = pcbnew.PCB_TEXT(board)
         item.SetText(text)

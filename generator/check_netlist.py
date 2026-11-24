@@ -22,7 +22,7 @@ def pcb_pairs():
         ref = fp.GetReference()
         for pad in fp.Pads():
             name = pad.GetNetname()
-            if name:
+            if name and not name.startswith("unconnected-"):
                 out[(ref, pad.GetNumber())] = name
     return out
 

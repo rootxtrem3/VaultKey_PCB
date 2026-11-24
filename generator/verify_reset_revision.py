@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify the revision-D BOOT removal and recessed EN reset switch."""
+"""Verify revision-E recovery access and recessed EN reset switch."""
 
 from __future__ import annotations
 
@@ -29,9 +29,10 @@ def net_pads(board, net):
 def report_errors(path: Path) -> tuple[int, int]:
     text = path.read_text()
     if path.name.startswith("DRC"):
-        m = re.search(r"Found (\d+) DRC violations", text)
+        severities = re.findall(r"^\s*Rule:.*; (error|warning)$", text,
+                                flags=re.MULTILINE)
         u = re.search(r"Found (\d+) unconnected pads", text)
-        return int(m.group(1) if m else -1), int(u.group(1) if u else -1)
+        return severities.count("error"), int(u.group(1) if u else -1)
     m = re.search(r"ERC messages: (\d+)\s+Errors (\d+)\s+Warnings (\d+)", text)
     return (int(m.group(2)) if m else -1, int(m.group(3)) if m else -1)
 
@@ -39,7 +40,7 @@ def report_errors(path: Path) -> tuple[int, int]:
 def main() -> int:
     board = pcbnew.LoadBoard(str(PCB))
     lines = [
-        "VaultKey USB revision-D BOOT/RESET verification",
+        "VaultKey USB revision-E BOOT/RESET verification",
         "==============================================",
     ]
     ok = True
@@ -60,9 +61,11 @@ def main() -> int:
     checks.append(("EN = module pin 3, R6, C7, SW5 (no GND short)",
                    en == {("C7", "1"), ("R6", "2"), ("SW5", "1"), ("U1", "3")}
                    and ("U1", "3") not in gnd))
-    checks.append(("BOOT/GPIO0 = module pin 27 + R7 pull-up only (no switch)",
-                   boot == {("R7", "2"), ("U1", "27")}
+    checks.append(("BOOT/GPIO0 = module pin 27 + R7 pull-up + TP1.1",
+                   boot == {("R7", "2"), ("U1", "27"), ("TP1", "1")}
                    and ("U1", "27") not in gnd))
+    checks.append(("TP1.2 is GND for manual BOOT bridge",
+                   ("TP1", "2") in gnd))
     checks.append(("R6 pad 1 is +3V3 (EN pull-up present)",
                    ("R6", "1") in net_pads(board, "+3V3")))
     checks.append(("C7 pad 2 is GND (EN RC present)",
@@ -78,7 +81,7 @@ def main() -> int:
 
     drc_errors, drc_unconnected = report_errors(REPORTS / "DRC_report.txt")
     erc_errors, erc_warnings = report_errors(REPORTS / "ERC_report.txt")
-    checks.append(("DRC violations = 0", drc_errors == 0))
+    checks.append(("DRC errors = 0", drc_errors == 0))
     checks.append(("DRC unconnected pads = 0", drc_unconnected == 0))
     checks.append(("ERC errors = 0", erc_errors == 0))
     checks.append(("ERC warnings = 0", erc_warnings == 0))
@@ -91,6 +94,7 @@ def main() -> int:
         "",
         f"EN net pads: {', '.join(f'{r}.{p}' for r, p in sorted(en))}",
         f"BOOT/GPIO0 net pads: {', '.join(f'{r}.{p}' for r, p in sorted(boot))}",
+        "Recovery: bridge TP1.1 (BOOT) to TP1.2 (GND), pulse SW5/EN, release bridge after ROM USB appears",
         "Recessed switch: Button_Switch_SMD:"
         "SW_Push_1P1T_NO_Vertical_Wuerth_434133025816",
         "Switch position: (104.000, 13.500) mm, front side",

@@ -41,6 +41,7 @@ REFERENCE_LABELS = {
     "R6": (97.0, 5.8, 0),
     "C7": (103.0, 5.8, 0),
     "R7": (96.5, 39.5, 0),
+    "TP1": (105.3, 33.8, 0),
     "H1": (19.2, 3.5, 0),
     "H2": (13.0, 43.5, 0),
     "H3": (104.7, 3.5, 0),
@@ -55,6 +56,8 @@ FUNCTION_LABELS = [
     ("SELECT", 95.0, 27.8, 0, "F", 0.9),
     ("BACK", 77.5, 27.8, 0, "F", 0.9),
     ("RESET", 104.0, 17.7, 0, "F", 0.8),
+    ("BOOT", 104.0, 38.0, 0, "F", 0.8),
+    ("GND", 106.54, 38.0, 0, "F", 0.8),
     ("OLED", 50.3, 42.5, 90, "F", 0.9),
     ("RTC", 73.0, 13.8, 0, "F", 0.9),
     ("ESP32-S3", 67.0, 48.5, 0, "F", 0.9),
@@ -83,7 +86,7 @@ def apply(board: pcbnew.BOARD) -> None:
         text.SetVertJustify(pcbnew.GR_TEXT_V_ALIGN_CENTER)
 
     functional_names = {entry[0] for entry in FUNCTION_LABELS}
-    obsolete_names = {"BOOT"}  # external BOOT control removed in revision D
+    obsolete_names = set()
     for item in list(board.GetDrawings()):
         if (item.GetClass() == "PCB_TEXT" and
                 item.GetText() in functional_names | obsolete_names):

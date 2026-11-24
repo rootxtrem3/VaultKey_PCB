@@ -16,14 +16,20 @@ The release artifacts in this directory were generated with KiCad 10.0.8.
 
 | Check | Result |
 |---|---:|
-| PCB DRC | **0 violations** |
-| PCB connectivity | **0 unconnected items** |
+| PCB DRC | **0 violations, 0 unconnected pads after copper-zone refill** |
+| PCB pad connectivity | **0 unconnected pads after GND stitching via** |
 | Schematic ERC | **0 violations** |
-| Schematic-to-PCB comparison | **102 connected pins, 0 mismatches** |
+| Schematic-to-PCB comparison | **105 connected pins, 0 mismatches** |
 | Board outline | **112.500 x 50.000 mm** |
 | Copper layers / thickness | **2 / 1.600 mm** |
 | USB D+/D- routed-length mismatch | **6.625 mm** |
-| USB-A PCB-edge contact verification | **PASS** |
+| USB-A PCB-edge pad order/geometry | **PASS** |
+
+Rev E adds TP1 BOOT-to-GND recovery pads and MCU GPIO1 control of the green
+status LED. Existing component placement and board outline are unchanged. The
+current PCB passes DRC after copper-zone refill. Regenerate the manufacturing
+package from this board before ordering; archived fabrication outputs may
+predate the final zone refill.
 
 The machine-generated reports are under `fabrication/reports/`.
 Cosmetic silkscreen-to-copper, silkscreen-overlap, and silkscreen-edge checks
@@ -42,8 +48,9 @@ hole, courtyard, connectivity, and copper-edge checks remain enabled.
   - H3 `(108.5, 3.5)`
   - H4 `(108.0, 46.0)`
 - Two-layer, 1.6 mm FR4. All vias are tented on both sides.
-- Contact finish: hard gold is preferred on the exposed USB fingers; ENIG is
-  acceptable for low-cycle prototypes.
+- Contact finish: standard ENIG; hard-gold edge plating is not specified for
+  this low-cycle prototype. Confirm insertion-cycle requirements with the
+  fabricator and USB host connector.
 - Front and rear silkscreens include component references; controls and major
   blocks also carry functional labels for assembly and use.
 
@@ -60,7 +67,7 @@ their locked source coordinates. See
   capacitance.
 - U5 (USBLC6-2SC6, bottom side) protects USB D+, D-, and VBUS from ESD.
 - C9 provides local post-fuse USB input bypassing.
-- D1 and R5 provide a 3.3 V power indicator.
+- D1 is an active-high MCU status LED driven by GPIO1 through R5 (1 kΩ).
 - J1 is a true front-copper PCB-edge USB-A plug. The four contacts lie on the
   `X=0..12 mm` tongue, run in the +X insertion axis, and are ordered from the
   lower tongue edge toward the upper edge as VBUS, D-, D+, GND. VBUS/GND are
@@ -77,13 +84,9 @@ their locked source coordinates. See
 - SW5 is a small SMD tactile switch from EN to GND, recessed under a pinhole in
   the enclosure and operated with a needle or SIM-ejector tool. It is not a
   finger-operated reset button.
-- The external BOOT button has been removed. R7 (10k) holds GPIO0 high, so the
-  module always boots normally from flash. Firmware download uses the
-  ESP32-S3 native USB-Serial/JTAG interface with automatic download mode; no
-  BOOT button or USB-UART DTR/RTS bridge is required.
-- GPIO0 is not externally accessible on rev D. Automatic download is suitable
-  for normal development, but recovery is not guaranteed if application
-  firmware disables or takes ownership of the shared native USB PHY.
+- R7 (10k) holds GPIO0 high for normal flash boot. TP1.1 is BOOT and TP1.2 is
+  GND; bridge them while pulsing SW5/EN to enter ROM recovery mode. Remove the
+  bridge after the ROM USB device appears. Validate this sequence on hardware.
 - Enclosure reset access: SW5 sits on the front side at (104.0, 13.5) mm. Put a
   1.0-1.2 mm pinhole in the lid directly above that point; the switch body is
   4.2 x 3.2 mm and 2.5 mm tall, so it is not reachable by a finger. Press it
@@ -102,6 +105,7 @@ Firmware-facing control assignment:
 | OLED SCL | GPIO9 |
 | OLED reset | GPIO13 |
 | Boot | GPIO0 |
+| Status LED | GPIO1 |
 
 ### OLED and RTC
 
@@ -129,9 +133,8 @@ Firmware-facing control assignment:
 4. The project-local U1 STEP file is an **assembly-envelope model**, not
    vendor-controlled mechanical CAD. Its U.FL connector end matches the KiCad
    footprint, but do not use the model to machine mating parts.
-5. The locked stackup is 1.6 mm FR4. Confirm mechanical retention with the
-   intended USB-A receptacle before production; hard-gold fingers are strongly
-   recommended for repeated mating.
+5. The locked stackup is 1.6 mm FR4. Confirm mechanical retention and contact
+   wear with the intended USB-A receptacle before production.
 
 ## Project structure
 
@@ -150,7 +153,8 @@ Firmware-facing control assignment:
 | `docs/` | Schematic PDF, 1:1 PCB plots, SVGs, and 3D renders |
 | `generator/` | Deterministic source data and validation/export scripts |
 
-The ready-to-upload archive is
+The existing archive is an earlier generated package and must be regenerated
+from the current board before upload:
 `fabrication/VaultKey_USB_Gerbers_and_Drill.zip`. Verify its contents against
 your fabricator's layer naming and stackup requirements before ordering.
 `fabrication/VaultKey_USB_Manufacturing_Package.zip` additionally contains the

@@ -2,7 +2,7 @@
 	(version "E")
 	(design
 		(source "/home/rootx/Projects/VaultKey_USB/VaultKey_USB.kicad_sch")
-		(date "2026-11-12T22:41:35")
+		(date "2026-11-24T05:22:06")
 		(tool "Eeschema 10.0.8")
 		(sheet
 			(number "1")
@@ -594,7 +594,7 @@
 			(ref "D1")
 			(value "GREEN")
 			(footprint "LED_SMD:LED_0805_2012Metric")
-			(description "3.3 V power indicator LED (pad 1 cathode)")
+			(description "GPIO-controlled green status LED (pad 1 cathode)")
 			(fields
 				(field
 					(name "Footprint") "LED_SMD:LED_0805_2012Metric")
@@ -602,7 +602,7 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "3.3 V power indicator LED (pad 1 cathode)")
+					(name "Description") "GPIO-controlled green status LED (pad 1 cathode)")
 			)
 			(libsource
 				(lib "Device")
@@ -1253,7 +1253,7 @@
 			(ref "R5")
 			(value "1k")
 			(footprint "Resistor_SMD:R_0805_2012Metric")
-			(description "Power LED series resistor")
+			(description "Status LED current limiter")
 			(fields
 				(field
 					(name "Footprint") "Resistor_SMD:R_0805_2012Metric")
@@ -1261,7 +1261,7 @@
 					(name "Datasheet")
 				)
 				(field
-					(name "Description") "Power LED series resistor")
+					(name "Description") "Status LED current limiter")
 			)
 			(libsource
 				(lib "Device")
@@ -1701,6 +1701,60 @@
 				(tstamps "/")
 			)
 			(tstamps "52046594-a8a3-5f32-a6f9-53dc46306a83")
+			(units
+				(unit
+					(name "A")
+					(pins
+						(pin
+							(num "1")
+						)
+						(pin
+							(num "2")
+						)
+					)
+				)
+			)
+		)
+		(comp
+			(ref "TP1")
+			(value "BOOT_RECOVERY")
+			(footprint "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm")
+			(description "Bridge BOOT to GND during reset for ROM recovery")
+			(fields
+				(field
+					(name "Footprint") "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm")
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "Bridge BOOT to GND during reset for ROM recovery")
+			)
+			(libsource
+				(lib "Connector")
+				(part "TestPoint_2Pole")
+				(description "2-polar test point")
+			)
+			(property
+				(name "Sheetname")
+				(value "VaultKey_USB")
+			)
+			(property
+				(name "Sheetfile")
+				(value "VaultKey_USB.kicad_sch")
+			)
+			(property
+				(name "ki_keywords")
+				(value "point tp")
+			)
+			(property
+				(name "ki_fp_filters")
+				(value "Pin* Test*")
+			)
+			(sheetpath
+				(names "/")
+				(tstamps "/")
+			)
+			(tstamps "41c52cd3-6d92-5be8-b636-e88ac406fc8b")
 			(units
 				(unit
 					(name "A")
@@ -2211,6 +2265,41 @@
 	(groups)
 	(variants)
 	(libparts
+		(libpart
+			(lib "Connector")
+			(part "TestPoint_2Pole")
+			(description "2-polar test point")
+			(footprints
+				(fp "Pin*")
+				(fp "Test*")
+			)
+			(fields
+				(field
+					(name "Reference") "TP")
+				(field
+					(name "Value") "TestPoint_2Pole")
+				(field
+					(name "Footprint")
+				)
+				(field
+					(name "Datasheet")
+				)
+				(field
+					(name "Description") "2-polar test point")
+			)
+			(pins
+				(pin
+					(num "1")
+					(name "1")
+					(type "passive")
+				)
+				(pin
+					(num "2")
+					(name "2")
+					(type "passive")
+				)
+			)
+		)
 		(libpart
 			(lib "Connector")
 			(part "USB_A")
@@ -3111,11 +3200,6 @@
 				(pintype "passive")
 			)
 			(node
-				(ref "R5")
-				(pin "1")
-				(pintype "passive")
-			)
-			(node
 				(ref "R6")
 				(pin "1")
 				(pintype "passive")
@@ -3220,6 +3304,12 @@
 			(node
 				(ref "R7")
 				(pin "2")
+				(pintype "passive")
+			)
+			(node
+				(ref "TP1")
+				(pin "1")
+				(pinfunction "1_1")
 				(pintype "passive")
 			)
 			(node
@@ -3372,6 +3462,12 @@
 				(pintype "passive")
 			)
 			(node
+				(ref "TP1")
+				(pin "2")
+				(pinfunction "2_2")
+				(pintype "passive")
+			)
+			(node
 				(ref "U1")
 				(pin "1")
 				(pinfunction "GND_1")
@@ -3459,6 +3555,22 @@
 		)
 		(net
 			(code "8")
+			(name "LED_GPIO")
+			(class "Default")
+			(node
+				(ref "R5")
+				(pin "1")
+				(pintype "passive")
+			)
+			(node
+				(ref "U1")
+				(pin "39")
+				(pinfunction "IO1_39")
+				(pintype "bidirectional")
+			)
+		)
+		(net
+			(code "9")
 			(name "OLED_RST")
 			(class "Default")
 			(node
@@ -3475,7 +3587,7 @@
 			)
 		)
 		(net
-			(code "9")
+			(code "10")
 			(name "OLED_SCL")
 			(class "Default")
 			(node
@@ -3503,7 +3615,7 @@
 			)
 		)
 		(net
-			(code "10")
+			(code "11")
 			(name "OLED_SDA")
 			(class "Default")
 			(node
@@ -3531,7 +3643,7 @@
 			)
 		)
 		(net
-			(code "11")
+			(code "12")
 			(name "RTC_SCL")
 			(class "Default")
 			(node
@@ -3553,7 +3665,7 @@
 			)
 		)
 		(net
-			(code "12")
+			(code "13")
 			(name "RTC_SDA")
 			(class "Default")
 			(node
@@ -3575,7 +3687,7 @@
 			)
 		)
 		(net
-			(code "13")
+			(code "14")
 			(name "RTC_X1")
 			(class "Default")
 			(node
@@ -3592,7 +3704,7 @@
 			)
 		)
 		(net
-			(code "14")
+			(code "15")
 			(name "RTC_X2")
 			(class "Default")
 			(node
@@ -3609,7 +3721,7 @@
 			)
 		)
 		(net
-			(code "15")
+			(code "16")
 			(name "SW_BACK")
 			(class "Default")
 			(node
@@ -3626,7 +3738,7 @@
 			)
 		)
 		(net
-			(code "16")
+			(code "17")
 			(name "SW_DOWN")
 			(class "Default")
 			(node
@@ -3643,7 +3755,7 @@
 			)
 		)
 		(net
-			(code "17")
+			(code "18")
 			(name "SW_SELECT")
 			(class "Default")
 			(node
@@ -3660,7 +3772,7 @@
 			)
 		)
 		(net
-			(code "18")
+			(code "19")
 			(name "SW_UP")
 			(class "Default")
 			(node
@@ -3677,7 +3789,7 @@
 			)
 		)
 		(net
-			(code "19")
+			(code "20")
 			(name "USB_DM")
 			(class "Default")
 			(node
@@ -3706,7 +3818,7 @@
 			)
 		)
 		(net
-			(code "20")
+			(code "21")
 			(name "USB_DP")
 			(class "Default")
 			(node
@@ -3735,7 +3847,7 @@
 			)
 		)
 		(net
-			(code "21")
+			(code "22")
 			(name "USB_VBUS")
 			(class "Default")
 			(node
@@ -3751,7 +3863,7 @@
 			)
 		)
 		(net
-			(code "22")
+			(code "23")
 			(name "VBAT")
 			(class "Default")
 			(node
@@ -3768,7 +3880,7 @@
 			)
 		)
 		(net
-			(code "23")
+			(code "24")
 			(name "unconnected-(DS1-Pin_6-Pad6)")
 			(class "Default")
 			(node
@@ -3779,7 +3891,7 @@
 			)
 		)
 		(net
-			(code "24")
+			(code "25")
 			(name "unconnected-(J1-Shield-PadSH)")
 			(class "Default")
 			(node
@@ -3787,17 +3899,6 @@
 				(pin "SH")
 				(pinfunction "Shield_SH")
 				(pintype "passive+no_connect")
-			)
-		)
-		(net
-			(code "25")
-			(name "unconnected-(U1-IO1-Pad39)")
-			(class "Default")
-			(node
-				(ref "U1")
-				(pin "39")
-				(pinfunction "IO1_39")
-				(pintype "bidirectional+no_connect")
 			)
 		)
 		(net

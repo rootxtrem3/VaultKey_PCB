@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Mirror the PCB-edge USB-A contact row and reroute its four nets.
 
-The original row was placed with the contact order inverted across the tongue
-width.  USB-A plugs require, in the insertion frame, VBUS, D-, D+, GND.  This
-revision mirrors all four contacts about the tongue centreline (Y=25 mm) and
-rebuilds the short fan-out while preserving the verified downstream routing.
+The physical contact row already has the correct USB-A order and geometry.
+The hand-routed board had VBUS and GND assigned to the opposite outer pads.
+This revision swaps those nets and rebuilds only their short fan-out while
+preserving the differential pair and downstream routing.
 
 The distro pcbnew SWIG bindings are fragile when the track container is read
 after a removal or addition, so the revision runs in two reloaded phases and
@@ -28,43 +28,32 @@ TARGETS = {
 }
 
 REMOVALS = (
-    ("USB_VBUS", pcbnew.F_Cu, (4.5, 28.5), (8.502, 28.5)),
-    ("USB_VBUS", pcbnew.F_Cu, (8.502, 28.5), (8.707, 28.295)),
-    ("USB_VBUS", pcbnew.B_Cu, (8.707, 28.295), (8.707, 24.986)),
-    ("USB_VBUS", pcbnew.B_Cu, (8.707, 24.986), (13.406, 20.288)),
-    ("GND", pcbnew.F_Cu, (4.5, 21.5), (13.0, 22.0)),
-    ("USB_DM", pcbnew.F_Cu, (4.5, 26.0), (8.327, 26.0)),
-    ("USB_DM", pcbnew.F_Cu, (8.327, 26.0), (9.279, 26.953)),
-    ("USB_DM", pcbnew.F_Cu, (9.279, 26.953), (11.673, 26.953)),
-    ("USB_DP", pcbnew.F_Cu, (4.5, 24.0), (8.327, 24.0)),
-    ("USB_DP", pcbnew.F_Cu, (8.327, 24.0), (9.325, 24.998)),
-    ("USB_DP", pcbnew.F_Cu, (9.325, 24.998), (13.246, 24.998)),
+    # prepare_rev_e.py assigns the corrected net to each edge pad before this
+    # phase; pcbnew updates the attached legacy traces with the pad's new net.
+    ("USB_VBUS", pcbnew.F_Cu, (4.5, 21.5), (12.5, 21.5)),
+    ("USB_VBUS", pcbnew.F_Cu, (7.9, 21.5), (12.5, 21.5)),
+    ("USB_VBUS", pcbnew.F_Cu, (7.9, 21.5), (8.707, 21.5)),
+    ("USB_VBUS", pcbnew.B_Cu, (8.707, 21.5), (9.375, 23.125)),
+    ("GND", pcbnew.F_Cu, (4.5, 28.5), (9.5, 28.5)),
+    ("USB_VBUS", pcbnew.F_Cu, (4.5, 28.5), (9.5, 28.5)),
 )
 VIA_REMOVALS = (
-    ("USB_VBUS", (8.707, 28.295)),
-    ("GND", (13.0, 22.0)),
-    # The DM path now reaches its downstream B.Cu tail entirely on B.Cu, so
-    # this former F.Cu/B.Cu transition via is no longer needed.
-    ("USB_DM", (11.673, 26.953)),
+    ("USB_VBUS", (9.5, 28.5)),
+    ("GND", (12.5, 21.5)),
+    ("USB_VBUS", (12.5, 21.5)),
 )
 
 # (net, layer, start, end, width)
 TRACKS = (
     ("USB_VBUS", pcbnew.F_Cu, (4.5, 21.5), (8.707, 21.5), 0.5),
-    ("USB_VBUS", pcbnew.B_Cu, (8.707, 21.5), (13.406, 20.288), 0.5),
+    ("USB_VBUS", pcbnew.B_Cu, (8.707, 21.5), (9.3746, 23.1254), 0.5),
     ("GND", pcbnew.F_Cu, (4.5, 28.5), (13.0, 28.5), 0.5),
-    ("USB_DP", pcbnew.F_Cu, (4.5, 26.0), (12.0, 26.0), 0.25),
-    ("USB_DP", pcbnew.F_Cu, (12.0, 26.0), (13.246, 24.998), 0.25),
-    ("USB_DM", pcbnew.F_Cu, (4.5, 24.0), (12.5, 23.0), 0.25),
-    ("USB_DM", pcbnew.B_Cu, (12.5, 23.0), (11.0, 23.0), 0.25),
-    ("USB_DM", pcbnew.B_Cu, (11.0, 23.0), (11.0, 26.953), 0.25),
-    ("USB_DM", pcbnew.B_Cu, (11.0, 26.953), (11.673, 26.953), 0.25),
 )
 # (net, position, diameter, drill)
 VIAS = (
     ("USB_VBUS", (8.707, 21.5), 0.8, 0.4),
+    ("GND", (12.5, 21.5), 0.8, 0.4),
     ("GND", (13.0, 28.5), 0.8, 0.4),
-    ("USB_DM", (12.5, 23.0), 0.6, 0.3),
 )
 
 TOL = 0.03
@@ -104,7 +93,9 @@ def mirror_pads_and_remove_old_fanout() -> None:
         pad = j1.FindPadByNumber(number)
         if pad is None:
             raise RuntimeError(f"J1.{number} is missing")
-        pad.SetPosition(pt(x, y))
+        pos = pad.GetPosition()
+        if abs(pos.x / 1e6 - x) > TOL or abs(pos.y / 1e6 - y) > TOL:
+            raise RuntimeError(f"J1.{number} geometry differs from the verified contact layout")
 
     snapshot = list(board.GetTracks())
     doomed = []
