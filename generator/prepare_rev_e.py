@@ -63,8 +63,11 @@ def main() -> None:
             raise RuntimeError(f"cannot assign {ref}.{number} to {net}")
         pad.SetNet(net_info)
 
-    # USB-A contact row, from the lower tongue edge upward: VBUS, D-, D+, GND.
+    # Standard pin meanings; the custom footprint numbers map to the requested
+    # physical top-to-bottom order GND, D+, D-, VBUS with tip facing left.
     assign("J1", "1", "USB_VBUS")
+    assign("J1", "2", "USB_DM")
+    assign("J1", "3", "USB_DP")
     assign("J1", "4", "GND")
     # Active-high LED path: GPIO1 -> R5 (1 kOhm) -> D1 -> GND.
     assign("R5", "1", "LED_GPIO")

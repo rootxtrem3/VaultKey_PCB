@@ -271,7 +271,7 @@ def add_usb_gnd_stitch(board: pcbnew.BOARD,
                        gnd: pcbnew.NETINFO_ITEM) -> None:
     """Tie the USB shell/ground finger into the main ground pour.
 
-    J1 pin 4 is the USB-A ground contact on the tongue.  The front pour starts
+    J1 pad 1 is the USB-A ground contact on the tongue. The front pour starts
     at the main-body edge (x = 12 mm), so a short 0.5 mm track and a via carry
     that finger to both ground planes.
     """

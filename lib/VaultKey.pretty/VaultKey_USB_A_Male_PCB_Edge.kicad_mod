@@ -61,25 +61,25 @@
 			)
 		)
 	)
-	(pad "1" smd rect
+	(pad "4" smd rect
 		(at -3.5 5 90)
 		(size 7 1.4)
 		(layers "F.Cu" "F.Mask")
 		(uuid "88888888-8888-4888-8888-888888888801")
 	)
-	(pad "2" smd rect
+	(pad "3" smd rect
 		(at -1 5 90)
 		(size 6 1.2)
 		(layers "F.Cu" "F.Mask")
 		(uuid "88888888-8888-4888-8888-888888888802")
 	)
-	(pad "3" smd rect
+	(pad "2" smd rect
 		(at 1 5 90)
 		(size 6 1.2)
 		(layers "F.Cu" "F.Mask")
 		(uuid "88888888-8888-4888-8888-888888888803")
 	)
-	(pad "4" smd rect
+	(pad "1" smd rect
 		(at 3.5 5 90)
 		(size 7 1.4)
 		(layers "F.Cu" "F.Mask")

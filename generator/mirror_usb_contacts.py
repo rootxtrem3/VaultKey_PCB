@@ -151,6 +151,11 @@ def add_new_fanout() -> None:
 
 
 def main() -> None:
+    raise SystemExit(
+        "Retired Rev-D fanout helper: it encodes the former USB contact order. "
+        "Do not run it on the current board."
+    )
+
     import sys
 
     phase = sys.argv[1] if len(sys.argv) > 1 else ""

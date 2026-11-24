@@ -1,12 +1,12 @@
 %TF.GenerationSoftware,KiCad,Pcbnew,10.0.8*%
-%TF.CreationDate,2026-11-24T05:43:29+03:00*%
+%TF.CreationDate,2026-11-24T06:19:22+03:00*%
 %TF.ProjectId,VaultKey_USB,5661756c-744b-4657-995f-5553422e6b69,E*%
 %TF.SameCoordinates,Original*%
 %TF.FileFunction,Soldermask,Top*%
 %TF.FilePolarity,Negative*%
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 10.0.8) date 2026-11-24 05:43:29*
+G04 Created by KiCad (PCBNEW 10.0.8) date 2026-11-24 06:19:22*
 %MOMM*%
 %LPD*%
 G01*
@@ -223,12 +223,12 @@ X57450000Y-4815000D03*
 %TD*%
 D28*
 %TO.C,J1*%
-X4500000Y-21500000D03*
-D29*
-X4500000Y-24000000D03*
-X4500000Y-26000000D03*
-D28*
 X4500000Y-28500000D03*
+D29*
+X4500000Y-26000000D03*
+X4500000Y-24000000D03*
+D28*
+X4500000Y-21500000D03*
 %TD*%
 D22*
 %TO.C,C2*%

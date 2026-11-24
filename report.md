@@ -2,7 +2,7 @@
 
 Review date: 2026-11-24
 Physical prototype tested: **No**
-Fabrication status: **PCB DRC clean; regenerate manufacturing outputs before ordering**
+Fabrication status: **PCB DRC clean; manufacturing outputs regenerated**
 
 ## Changes reviewed
 
@@ -21,7 +21,7 @@ Fabrication status: **PCB DRC clean; regenerate manufacturing outputs before ord
 
 | Check | Result |
 |---|---|
-| USB-A contact pad geometry and order | PASS: VBUS, D−, D+, GND, all pads inside the tongue |
+| USB-A contact pad geometry and order | PASS: GND, D+, D−, VBUS top to bottom; all pads inside the tongue |
 | USB silkscreen and copper pour keepout | PASS |
 | Schematic/PCB connected-pin comparison | PASS: 105 pins, 0 mismatches |
 | Schematic ERC | PASS: 0 violations |
@@ -34,12 +34,11 @@ Fabrication status: **PCB DRC clean; regenerate manufacturing outputs before ord
 The independent USB contact checker confirms the four physical pad assignments
 and geometry. A GND stitching via reconnects the isolated F.Cu copper island,
 and KiCad now reports zero unconnected pads. The USB VBUS fanout passes DRC
-after refilling the copper zones. The archived Gerber package may predate this
-final refill, so regenerate fabrication outputs from the current board before
-ordering.
+after refilling the copper zones. The Gerber, drill, and manufacturing
+archives have been regenerated from the current board.
 
 ## Release decision
 
-The PCB source passes DRC and both Rev-E firmware flash variants build.
-Regenerate the manufacturing package before submission, then validate recovery,
-USB enumeration, LED behavior, and mechanical fit on the assembled board.
+The PCB source passes DRC and both Rev-E firmware flash variants build. Validate
+recovery, USB enumeration, LED behavior, and mechanical fit on the assembled
+board before production use.

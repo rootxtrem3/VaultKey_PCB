@@ -12,10 +12,10 @@ BOARD = ROOT / "VaultKey_USB.kicad_pcb"
 # Absolute board coordinates after J1's -90 degree footprint transform.
 # The exposed tip is X=0; contacts extend toward the body in +X.
 EXPECTED = {
-    "1": ("USB_VBUS", (4.5, 21.5), (7.0, 1.4)),
-    "2": ("USB_DM",   (4.5, 24.0), (6.0, 1.2)),
-    "3": ("USB_DP",   (4.5, 26.0), (6.0, 1.2)),
-    "4": ("GND",      (4.5, 28.5), (7.0, 1.4)),
+    "1": ("USB_VBUS", (4.5, 28.5), (7.0, 1.4)),
+    "2": ("USB_DM",   (4.5, 26.0), (6.0, 1.2)),
+    "3": ("USB_DP",   (4.5, 24.0), (6.0, 1.2)),
+    "4": ("GND",      (4.5, 21.5), (7.0, 1.4)),
 }
 
 

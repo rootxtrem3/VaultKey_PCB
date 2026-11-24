@@ -14,10 +14,10 @@ BOARD = ROOT / "VaultKey_USB.kicad_pcb"
 REPORT = ROOT / "fabrication" / "reports" / "USB_contact_verification.txt"
 
 EXPECTED = {
-    "1": ("USB_VBUS", (4.5, 21.5), (7.0, 1.4)),
-    "2": ("USB_DM",   (4.5, 24.0), (6.0, 1.2)),
-    "3": ("USB_DP",   (4.5, 26.0), (6.0, 1.2)),
-    "4": ("GND",      (4.5, 28.5), (7.0, 1.4)),
+    "1": ("USB_VBUS", (4.5, 28.5), (7.0, 1.4)),
+    "2": ("USB_DM",   (4.5, 26.0), (6.0, 1.2)),
+    "3": ("USB_DP",   (4.5, 24.0), (6.0, 1.2)),
+    "4": ("GND",      (4.5, 21.5), (7.0, 1.4)),
 }
 TONGUE = (0.0, 12.0, 19.0, 31.0)  # xmin, xmax, ymin, ymax
 
@@ -103,12 +103,11 @@ def main() -> None:
         rows.append((number, pad.GetNetname(), pos, size, angle,
                      inside, track_connected, correct))
 
-    # Pin order when traversing from the lower tongue edge toward the upper
-    # edge on the contact side must be VBUS, D-, D+, GND.
-    order = [p.GetNumber() for p in sorted(pads.values(),
-                                           key=lambda p: p.GetPosition().y)]
-    if order != ["1", "2", "3", "4"]:
-        failures.append(f"USB contact order is {order}")
+    # The connector points left; increasing board Y is top to bottom.
+    order = [p.GetNetname() for p in sorted(pads.values(),
+                                             key=lambda p: p.GetPosition().y)]
+    if order != ["GND", "USB_DP", "USB_DM", "USB_VBUS"]:
+        failures.append(f"USB contact net order is {order}")
 
     for a_num, a_box in pad_rects.items():
         for b_num, b_box in pad_rects.items():
@@ -199,8 +198,8 @@ def main() -> None:
         )
     lines += [
         "",
-        "Contact order (lower edge toward upper edge): " + " -> ".join(order),
-        "Expected net order: USB_VBUS -> USB_DM -> USB_DP -> GND",
+        "Contact net order (top toward bottom): " + " -> ".join(order),
+        "Expected net order: GND -> USB_DP -> USB_DM -> USB_VBUS",
         f"Silkscreen items on mating tongue: {len(silk_hits)}",
         f"Zone-fill samples on mating tongue: {fill_hits}",
         f"Unconnected items: {unconnected}",

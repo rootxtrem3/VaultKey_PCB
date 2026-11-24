@@ -218,8 +218,8 @@ USB-A tongue: X=0.000..12.000 mm, Y=19.000..31.000 mm with 0.5 mm tip chamfers.
 Stackup: 2-layer, 1.6 mm finished FR4, 1 oz copper unless the fabricator requires otherwise.
 Finish: standard ENIG is specified for this low-cycle prototype; hard gold is
 not required. Verify the fabricator's edge-plating process and insertion life.
-Release status: review only until the remaining USB VBUS dangling-track
-warning is reviewed and DRC is clean.
+Release status: PCB source passes DRC; perform physical USB insertion and
+hardware validation before production use.
 Solder mask: both sides; all vias are tented on both sides.
 Minimum track/space: 0.20 / 0.20 mm.
 Copper-to-edge: 0.50 mm minimum.
@@ -229,10 +229,11 @@ Mounting holes: 2.7 mm NPTH at (16,3.5), (15,47), (108.5,3.5), (108,46) mm.
 USB-A PCB-edge contacts
 -----------------------
 Contact side: front copper/front mask. Tongue: X=0..12 mm, Y=19..31 mm.
-Pad 1 USB_VBUS: center (4.5,21.5), 7.0 x 1.4 mm.
-Pad 2 USB_DM:   center (4.5,24.0), 6.0 x 1.2 mm.
-Pad 3 USB_DP:   center (4.5,26.0), 6.0 x 1.2 mm.
-Pad 4 GND:      center (4.5,28.5), 7.0 x 1.4 mm.
+Pad 4 GND:      center (4.5,21.5), 7.0 x 1.4 mm.
+Pad 3 USB_DP:   center (4.5,24.0), 6.0 x 1.2 mm.
+Pad 2 USB_DM:   center (4.5,26.0), 6.0 x 1.2 mm.
+Pad 1 USB_VBUS: center (4.5,28.5), 7.0 x 1.4 mm.
+Top-to-bottom order, insertion tip facing left: GND, D+, D-, VBUS.
 No silkscreen or zone fill is permitted on the 12 x 12 mm mating tongue.
 The specified stackup remains 1.6 mm; confirm retention in the target port.
 
