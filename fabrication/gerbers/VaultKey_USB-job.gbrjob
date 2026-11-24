@@ -5,13 +5,13 @@
       "Application": "Pcbnew",
       "Version": "10.0.8"
     },
-    "CreationDate": "2026-11-12T22:41:37+03:00"
+    "CreationDate": "2026-11-24T05:43:29+03:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
       "Name": "VaultKey_USB",
       "GUID": "5661756c-744b-4657-995f-5553422e6b69",
-      "Revision": "D"
+      "Revision": "E"
     },
     "Size": {
       "X": 112.6,
